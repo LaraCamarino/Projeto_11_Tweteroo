@@ -7,11 +7,13 @@ app.use(express.json());
 
 const users = [];
 const tweets = [];
+let currentUser;
 
 app.post("/sign-up", (request, response) => {
 	const { username, avatar } = request.body;
-	if (username.length > 0 && avatar.length > 0) {
+	if (username && avatar) {
 		users.push(request.body);
+		currentUser = avatar;
 		response.send("Ok");
 	}
 	else {
@@ -24,6 +26,7 @@ app.post("/tweets", (request, response) => {
 	if (username && tweet) {
 		tweets.push({
 			username: username,
+			avatar: currentUser,
 			tweet: tweet
 		});
 		response.send("Ok");
@@ -31,6 +34,11 @@ app.post("/tweets", (request, response) => {
 	else {
 		response.send("Erro");
 	}
+});
+
+app.get("/tweets", (request, response) => {
+	const lastTenTweets = tweets.slice(-10);
+	response.send(lastTenTweets);
 });
 
 app.listen(5000, () => console.log("O servidor foi iniciado."));
