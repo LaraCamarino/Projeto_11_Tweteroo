@@ -14,10 +14,10 @@ app.post("/sign-up", (request, response) => {
 	if (username && avatar) {
 		users.push(request.body);
 		currentUser = avatar;
-		response.send("Ok");
+		response.status(201).send("Ok");
 	}
 	else {
-		response.send("Erro");
+		response.status(400).send("Todos os campos são obrigatórios!");
 	}
 });
 
@@ -29,10 +29,10 @@ app.post("/tweets", (request, response) => {
 			avatar: currentUser,
 			tweet: tweet
 		});
-		response.send("Ok");
+		response.status(201).send("Ok");
 	}
 	else {
-		response.send("Erro");
+		response.status(400).send("Todos os campos são obrigatórios!");
 	}
 });
 
